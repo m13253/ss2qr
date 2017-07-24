@@ -1,3 +1,3 @@
 #!/bin/bash
 
-import png:- | zbarimg png:- | sed -e 's/QR-Code:\(.*\)/\1/g' | ./uri2ss.py
+import png:- | zbarimg png:- | grep ^QR-Code: | sed -e 's/^QR-Code:\(.*\)$/\1/g' | ./uri2ss.py
