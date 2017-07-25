@@ -5,6 +5,7 @@ import collections
 import json
 import re
 import sys
+import urllib.parse
 
 
 def decode_unpaded_base64(s):
@@ -74,7 +75,7 @@ def uri2ss(uri):
         conf['method'] = method[:-5]
         conf['auth'] = True
     if remarks:
-        conf['remarks'] = remarks
+        conf['remarks'] = urllib.parse.unquote_plus(remarks)
     return conf
 
 
