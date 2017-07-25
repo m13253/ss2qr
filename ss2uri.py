@@ -3,7 +3,7 @@
 import base64
 import json
 import sys
-import urllib
+import urllib.parse
 
 
 def ss2uri(conf):
