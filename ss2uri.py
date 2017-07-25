@@ -21,7 +21,7 @@ def ss2uri(conf):
     remarks = conf.get('remarks', '')
     if remarks:
         encoded += '#'
-        encoded += urllib.parse.quote_plus(remarks)
+        encoded += urllib.parse.quote(remarks)
     return 'ss://' + encoded
 
 

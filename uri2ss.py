@@ -75,7 +75,7 @@ def uri2ss(uri):
         conf['method'] = method[:-5]
         conf['auth'] = True
     if remarks:
-        conf['remarks'] = urllib.parse.unquote_plus(remarks)
+        conf['remarks'] = urllib.parse.unquote(remarks)
     return conf
 
 
