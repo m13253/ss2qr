@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import base64
+import collections
 import json
 import re
 import sys
@@ -59,19 +60,21 @@ def match_uri(uri):
 def uri2ss(uri):
     uri = uri.strip()
     method, password, server, server_port, remarks = match_uri(uri)
-    conf = {
-        'method': method,
-        'password': password,
-        'server': server,
-        'server_port': server_port,
-        'ipv6_first': True,
-        'mode': 'tcp_and_udp',
-    }
-    if remarks:
-        conf['remarks'] = remarks
+    conf = collections.OrderedDict([
+        ('server', server),
+        ('server_port', server_port),
+        ('local_address', '127.0.0.1'),
+        ('local_port', 1080),
+        ('password', password),
+        ('method', method),
+        ('mode', 'tcp_and_udp'),
+        ('ipv6_first', True),
+    ])
     if method.endswith('-auth'):
         conf['method'] = method[:-5]
         conf['auth'] = True
+    if remarks:
+        conf['remarks'] = remarks
     return conf
 
 
@@ -79,12 +82,12 @@ def main(argv):
     if len(argv) == 1:
         for line in sys.stdin:
             conf = uri2ss(line)
-            json.dump(conf, sys.stdout, indent=4, sort_keys=True)
+            json.dump(conf, sys.stdout, indent=4)
             sys.stdout.write('\n\n')
     else:
         for i in argv[1:]:
             conf = uri2ss(i)
-            json.dump(conf, sys.stdout, indent=4, sort_keys=True)
+            json.dump(conf, sys.stdout, indent=4)
             sys.stdout.write('\n\n')
 
 if __name__ == '__main__':
