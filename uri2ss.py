@@ -64,6 +64,8 @@ def uri2ss(uri):
         'password': password,
         'server': server,
         'server_port': server_port,
+        'ipv6_first': True,
+        'mode': 'tcp_and_udp',
     }
     if remarks:
         conf['remarks'] = remarks
