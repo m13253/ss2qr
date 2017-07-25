@@ -15,13 +15,13 @@ def ss2uri(conf):
     server_port = str(conf.get('server_port', '8388'))
     password = conf.get('password', '')
     if conf.get('auth', False):
-        method.append('-auth')
+        method += '-auth'
     plain = '{}:{}@{}:{}'.format(method, password, server, server_port)
     encoded = base64.b64encode(plain.encode('utf-8', 'replace')).rstrip(b'=').decode('utf-8', 'replace')
     remarks = conf.get('remarks', '')
     if remarks:
-        encoded.append('#')
-        encoded.append(urllib.parse.quote_plus(remarks))
+        encoded += '#'
+        encoded += urllib.parse.quote_plus(remarks)
     return 'ss://' + encoded
 
 
