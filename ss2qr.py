@@ -9,13 +9,18 @@ import sys
 class TerminalPrinter:
 
     def __enter__(self):
-        sys.stdout.buffer.write(b'\x1b[38;5;16m\x1b[48;5;231m')
+        sys.stdout.buffer.write(b'\x1b[1;38;5;16m\x1b[1;48;5;231m')
         self.last_line = None
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.flush()
-        sys.stdout.buffer.write(b'\x1b[39m\x1b[49m\n\n')
+        sys.stdout.buffer.write(b'\x1b[0;39m\x1b[0;49m\n\n')
+
+    def write_header(self, header):
+        self.flush()
+        sys.stdout.buffer.write(b'\n')
+        sys.stdout.buffer.write(header.encode('utf-8', 'replace'))
 
     def write(self, line=[]):
         if self.last_line is None:
@@ -42,6 +47,7 @@ def main(argv):
         for c in range(3):
             term.write()
         for i in argv[1:]:
+            term.write_header(i)
             with open(i, 'r', encoding='utf-8', errors='replace') as f:
                 conf = dict(json.load(f))
                 uri = ss2uri.ss2uri(conf)
