@@ -25,7 +25,7 @@ def match_uri(uri):
     if match is not None:
         return match.groups()
     # base64 password, IPv6 plain
-    match = re.match(r'ss://[A-Za-z0-9+/=]*@\[([^]@]*?)\]:(\d+)(?:#(.*))?$', uri)
+    match = re.match(r'ss://([A-Za-z0-9+/=]*)@\[([^]@]*?)\]:(\d+)(?:#(.*))?$', uri)
     if match is not None:
         method_password, server, server_port, remarks = match.groups()
         match = re.match(r'(.*?):(.*)$', method_password)
@@ -33,7 +33,7 @@ def match_uri(uri):
             method, password = match.groups()
             return method, password, server, server_port, remarks
     # base64 password, IPv4 plain
-    match = re.match(r'ss://[A-Za-z0-9+/=]*@([^:@]*?):(\d+)(?:#(.*))?$', uri)
+    match = re.match(r'ss://([A-Za-z0-9+/=]*)@([^:@]*?):(\d+)(?:#(.*))?$', uri)
     if match is not None:
         method_password, server, server_port, remarks = match.groups()
         method_password = decode_unpaded_base64(method_password)
